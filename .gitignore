@@ -2,7 +2,7 @@ intellij
 .idea/
 
 gradle
-./gradle
+.gradle/
 
 build files
 build/
