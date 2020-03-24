@@ -24,7 +24,7 @@ public class Employee {
 }
 ```
 ##### EmployeeDaoService 
-```ja
+```java
 @Component
 public class EmployeeDaoService {
 
