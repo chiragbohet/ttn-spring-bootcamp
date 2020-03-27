@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "io.freefair.lombok" version "5.0.0-rc6"
+}
+
+group = 'com.chiragbohet'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
+	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.10.2'
+
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+	compile (group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2')
+
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+//	// https://mvnrepository.com/artifact/org.springframework.hateoas/spring-hateoas
+//	compile (group: 'org.springframework.hateoas', name: 'spring-hateoas', version: '1.0.3.RELEASE')
+
+
+}
+
+test {
+	useJUnitPlatform()
+}
