@@ -1,6 +1,9 @@
 ## Exercise : Spring Framework
 
 #### Q1. Write a program to demonstrate Tightly Coupled code. 
+
+### [BinarySearchImpl](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q1_TightlyCoupled/BinarySearchImpl.java)
+
 ```java
 public class BinarySearchImpl {
 
@@ -96,6 +99,9 @@ public class BinarySearchImpl {
 ##### The above class is tightly coupled with BubbleSort logic. If we wanted to make any changes to the BubbleSort logic or use any other sorting algorithm other than Bubble Sort we have to change the code inside ```binarySearch()``` manually. 
 
 ##### An alternative approach could be as shown below
+
+[BinarySearchImpl](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q1_TightlyCoupledAlternativeApproach/BinarySearchImpl.java)
+
 ```java
 public class BinarySearchImpl {
     
@@ -175,6 +181,8 @@ public class BinarySearchImpl {
 }
 ```
 
+[BubbleSortAlgorithm](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q1_TightlyCoupledAlternativeApproach/BubbleSortAlgorithm.java)
+
 ```java
 public class BubbleSortAlgorithm {
     
@@ -212,6 +220,8 @@ public class BubbleSortAlgorithm {
 ##### 2. If we wanted to dynamically change the sorting algorithm we can't do that.
 
 #### Q2. Write a program to demonstrate Loosely Coupled code.
+
+[BinarySearchImpl](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q2_LooselyCoupled/BinarySearchImpl.java)
 
 ```java
 public class BinarySearchImpl {
@@ -296,11 +306,15 @@ public class BinarySearchImpl {
 
 ```
 
+[SortingAlgorithm](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q2_LooselyCoupled/SortingAlgorithm.java)
+
 ```java
 public interface SortingAlgorithm {
     int[] sort(int[] numbers);
 }
 ```
+
+[BubbleSortAlgorithm](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q2_LooselyCoupled/BubbleSortAlgorithm.java)
 
 ```java
 public class BubbleSortAlgorithm implements SortingAlgorithm {
@@ -333,7 +347,9 @@ public class BubbleSortAlgorithm implements SortingAlgorithm {
 
 }
 ```
+
 ##### The above implementation of Binary Search is loosely coupled with sorting logic. We can make changes to our sorting logic (in isolation, without making any internal changes to binary search) as well change the sorting algorithm dynamically by passing it as an constructor argument as shown below.
+
 ```java
         BubbleSortAlgorithm bubbleSortAlgorithm = new BubbleSortAlgorithm();
 		BinarySearchImpl binarySearch = new BinarySearchImpl(bubbleSortAlgorithm);
@@ -342,6 +358,9 @@ public class BubbleSortAlgorithm implements SortingAlgorithm {
 ```
 
 #### Q3. Use @Component and @Autowired annotations in Loosely Coupled code for dependency management
+
+[BinarySearchImpl](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q3_SpringManagedLooselyCoupled/BinarySearchImpl.java)
+
 ```java
 @Component
 public class BinarySearchImpl {
@@ -420,6 +439,8 @@ public class BinarySearchImpl {
 }
 ```
 
+[BubbleSortAlgorithm](com/chiragbohet/springframeworkintroduction/q3_SpringManagedLooselyCoupled/BubbleSortAlgorithm.java)
+
 ```java
 @Component
 public class BubbleSortAlgorithm implements SortingAlgorithm {
@@ -447,7 +468,9 @@ public class BubbleSortAlgorithm implements SortingAlgorithm {
 
 }
 ```
+
 #### Q4. Get a Spring Bean from application context and display its properties.
+
 ```java
 @SpringBootApplication
 public class SpringFrameworkIntroductionApplication {
@@ -465,9 +488,13 @@ public class SpringFrameworkIntroductionApplication {
 
 }
 ```
+
 #### Q5 Demonstrate how you will resolve ambiguity while autowiring bean (Hint : @Primary)
 ##### Ambiguity occurs when two or more matching beans are found for one dependency. We can give priority to one bean in such case using ```@Primary```  annotation. 
 ##### Suppose we add another QuickSortAlgorithm class which implements SortAlgorithm interface  and annotated it using ```@Component``` annotation.
+
+### Suppose we add another matching ```@Component``` QuickSortAlgorithm for ```SortingAlgorithm``` interface.
+
 ```java
 @Component
 public class QuickSortAlgorithm implements SortingAlgorithm {
@@ -541,10 +568,14 @@ public class QuickSortAlgorithm implements SortingAlgorithm {
 }
 
 ```
+
 ##### Now if we try to run the program we will get an error as ***required a single bean, but 2 were found***
 
 ##### We can resolve this error by adding ```@Primary``` annotation to one of the beans. 
 ##### Suppose we make QuickSortAlgorithm our primary bean as shown below : 
+
+[QuickSortAlgorithm](project-files/spring-framework-introduction/src/main/java/com/chiragbohet/springframeworkintroduction/q3_SpringManagedLooselyCoupled/QuickSortAlgorithm.java)
+
 ```java
 @Component
 @Primary
@@ -618,10 +649,13 @@ public class QuickSortAlgorithm implements SortingAlgorithm {
 
 }
 ```
+
 #### Now the program will run without any errors. 
 
 #### Q6 Perform Constructor Injection in a Spring Bean
+
 #### Constructor injection means passing in Dependencies using constructor. 
+
 ```java
 @Component
 public class BinarySearchImpl {
