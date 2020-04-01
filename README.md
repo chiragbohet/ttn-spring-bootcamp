@@ -8,6 +8,8 @@
 
 ### 1. Creating LocaleResolver and ResourceBundleMessageSource Beans.
 
+[ResTfulWebServices2Application](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/ResTfulWebServices2Application.java)
+
 ```java
   @Bean
     LocaleResolver localeResolver() {
@@ -26,23 +28,28 @@
 
 ### 2. Creating messages files.
 
-- greetings.properties
+- [greetings.properties](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/resources/greetings.properties)
 
 ```
 good.morning.message = Good Morning
 ```
 
-- greetings_de.properties
+- [greetings_de.properties](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/resources/greetings_de.properties)
+
 ```
 good.morning.message = guten Morgen
 ```
 
-- greetings_sv.properties
+- [greetings_sv.properties](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/resources/greetings_sv.properties)
+
+
 ```
 good.morning.message = god morgon
 ```
 
 ### Q2. Create a GET request which takes "username" as param and shows a localized message "Hello Username". (Use parameters in message properties)
+
+[GreetingController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/GreetingController.java)
 
 ```java
 @RestController
@@ -63,12 +70,15 @@ public class GreetingController {
 
 ### To enable XML support we just need to add [```jackson-dataformat-xml```](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml) as a dependency, spring boot autoconfigures it and we can start using it straight away. 
 
+[build.gradle](project-files/3-restful-web-service-2/RESTful-web-services-2/build.gradle)
+
 ```
 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.10.2'
 ```
 
-
 ### Q3. Create POST Method to create user details which can accept XML for user creation.
+
+[UserController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserController.java)
 
 ```java
 @PostMapping("/users")
@@ -91,6 +101,8 @@ compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml
 
 ### Q4. Create GET Method to fetch the list of users in XML format.
 
+[UserController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserController.java)
+
 ```java
 @GetMapping("/users")
     public List<User> getAllUsers(){
@@ -108,11 +120,15 @@ compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml
 
 #### 1. [Swagger2](https://mvnrepository.com/artifact/io.springfox/springfox-swagger2) : the core swagger dependency required to enable swagger
 
+[build.gradle](project-files/3-restful-web-service-2/RESTful-web-services-2/build.gradle)
+
 ```
 compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 ```
 
 #### 2. [Swagger UI](https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui) : provides a user friendly HTML UI for the api documentation
+
+[build.gradle](project-files/3-restful-web-service-2/RESTful-web-services-2/build.gradle)
 
 ```
 
@@ -121,6 +137,8 @@ compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 ```
 
 Now we need to configure swagger by creating a configuration class
+
+[SwaggerConfig](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Configurations/SwaggerConfig.java)
 
 ```java
 @Configuration
@@ -138,6 +156,7 @@ public class SwaggerConfig {
 This much is the bare minimum setup, now we can view the documentation on ***/v2/api-docs*** and ***/swagger-ui.html***.
 
 ### Q5. Configure swagger plugin and create document of following methods:
+
 - Get details of User using GET request.
 - Save details of the user using POST request.
 - Delete a user using DELETE request.
@@ -148,7 +167,7 @@ This much is the bare minimum setup, now we can view the documentation on ***/v2
 
 ### Q6. In swagger documentation, add the description of each class and URI so that in swagger UI the purpose of class and URI is clear.
 
-#### UserController
+[UserController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserController.java)
 
 ```java
 @Api(value = "/users",description = "Allows different operations related to user")
@@ -218,8 +237,7 @@ public class UserController {
 
 ```
 
-
-#### User
+[User](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Entities/User.java)
 
 ```java
 @JsonFilter("UserBasicFilter")
@@ -257,12 +275,15 @@ public class User {
 ```
 
 #### screenshot : 
+
 ![swagger-custom](screenshots/swagger-ui-custom.gif)
 
 
 ## Static and Dynamic Filtering
 
 ### Q7. Create API which saves details of User (along with the password) but on successfully saving returns only non-critical data. (Use static filtering)
+
+[User](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Entities/User.java)
 
 ```java
 @ApiModel(description = "A simple POJO used in exercise for various demonstrations.")
@@ -303,6 +324,8 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 
 ### Q8. Create another API that does the same by using Dynamic Filtering.
 
+[UserController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserController.java)
+
 ```java
 @ApiOperation(value = "Creates a new user")
     @PostMapping("/users")
@@ -331,6 +354,7 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 
     }
 ```
+
 #### References : 
 1. https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/util/MultiValueMap.html
 2. https://stackoverflow.com/questions/54552816/hashmap-vs-multivaluedmap
@@ -344,6 +368,8 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 ### Now apply versioning using : MimeType Versioning, Request Parameter versioning, URI versioning and Custom Header Versioning.
 
 ### Utility Methods
+
+[UserVersionedController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserVersionedController.java)
 
 ```java
 
@@ -375,6 +401,9 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 
 ### 1. URI versioning
 
+[UserVersionedController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserVersionedController.java)
+
+
 ```java
 // URI versioning
 
@@ -390,6 +419,8 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 ```
 
 ### 2. Request Parameter versioning
+
+[UserVersionedController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserVersionedController.java)
 
 ```java
  // Request Parameter versioning
@@ -407,6 +438,8 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 
 ### 3. Custom Header Versioning
 
+[UserVersionedController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserVersionedController.java)
+
 ```java
 // Custom Header Versioning
 
@@ -422,6 +455,8 @@ References : https://stackoverflow.com/questions/12505141/only-using-jsonignore-
 ```
 
 ### 4. MimeType Versioning
+
+[UserVersionedController](project-files/3-restful-web-service-2/RESTful-web-services-2/src/main/java/com/chiragbohet/RESTfulwebservices2/Controllers/UserVersionedController.java)
 
 ```java
 // MIME type Versioning
