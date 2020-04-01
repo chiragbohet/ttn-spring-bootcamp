@@ -1,6 +1,10 @@
 ## Exercise : RESTful web service part 1 
+
 #### Note : I have made use of [Project lombok]([https://projectlombok.org/](https://projectlombok.org/)) for generating getters, setters and constructors. 
+
 #### Q1. Create a simple RESTful service in Spring Boot which returns the Response "Welcome to spring boot".
+
+[WelcomeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/WelcomeController.java)
 
 ```java
 @RestController
@@ -13,8 +17,10 @@ public class WelcomeController {
     }
 }
 ```
+
 #### Q2. Create an Employee Bean(id, name, age) and service to  perform different operations related to employee.
-##### Employee
+
+[Employee](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Entities/Employee.java)
 ```java
 @Getter @Setter @AllArgsConstructor
 public class Employee {
@@ -23,7 +29,9 @@ public class Employee {
     Integer age;
 }
 ```
-##### EmployeeDaoService 
+
+[EmployeeDaoService](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/DAOs/EmployeeDaoService.java) 
+
 ```java
 @Component
 public class EmployeeDaoService {
@@ -120,8 +128,11 @@ public class EmployeeDaoService {
 }
 
 ```
+
 ### Note : In the coming questions I have done some exception handling, the content of exception handling files is as follows : 
-##### UserNotFoundException
+
+[UserNotFoundException](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Exceptions/UserNotFoundException.java)
+
 ```java
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {
@@ -129,7 +140,9 @@ public class UserNotFoundException extends RuntimeException {
     }
 }
 ```
-##### ExceptionResponseFormat
+
+[ExceptionResponseFormat](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Exceptions/ExceptionResponseFormat.java)
+
 ```java
 @Getter @AllArgsConstructor
 public class ExceptionResponseFormat {
@@ -138,7 +151,9 @@ public class ExceptionResponseFormat {
     private String details;
 }
 ```
-##### CustomizedResponseEntityExceptionHandler
+
+[CustomizedResponseEntityExceptionHandler](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Exceptions/CustomizedResponseEntityExceptionHandler.java)
+
 ```java
 @ControllerAdvice
 @RestController
@@ -183,14 +198,22 @@ public class CustomizedResponseEntityExceptionHandler
 }
 
 ```
+
 #### Q3. Implement GET http request for Employee to get list of employees.
+
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
 @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeDaoService.retrieveAllEmployees();
     }
 ```
+
 #### Q4. Implement GET http request using path variable to get one employee
+
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
  @GetMapping("/employees/{id}")
     public Employee getEmployeeWithId(@PathVariable int id) {
@@ -204,6 +227,9 @@ public class CustomizedResponseEntityExceptionHandler
 ```
 
 #### Q5. Implement POST http request for Employee to create a new employee.
+
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
 @PostMapping("/employees")
     public ResponseEntity createEmployee(@RequestBody Employee employee) {
@@ -220,7 +246,11 @@ public class CustomizedResponseEntityExceptionHandler
 
 #### Q6. Imploement Exception Handling for resource not found
 ##### Already implemented.
+
 #### Q7. Implement DELETE http request for Employee to delete employee
+
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
 @DeleteMapping("/employees/{id}")
     public Employee deleteEmployeeWithId(@PathVariable int id) {
@@ -232,15 +262,22 @@ public class CustomizedResponseEntityExceptionHandler
             throw new UserNotFoundException("No Employee found with id : " + id);
     }
 ```
+
 #### Q8. Implement PUT http request for Employee to update employee.
+
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
 @PutMapping("/employees")
     public Employee editOrCreateEmployee(@RequestBody Employee requestedEmployee) {
         return employeeDaoService.createEmployeeIfNotPresentElseUpdate(requestedEmployee);
     }
 ```
+
 #### Q9. Apply validation while create a new employee using POST http Request.
-##### Employee
+
+[Employee](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Entities/Employee.java)
+
 ```java
 @Getter @Setter @AllArgsConstructor
 public class Employee {
@@ -255,7 +292,8 @@ public class Employee {
 }
 ```
 
-##### EmployeeController
+[EmployeeController](project-files/restful-web-service-1/src/main/java/com/chiragbohet/restfulwebservice1/Controllers/EmployeeController.java)
+
 ```java
 @PostMapping("/employees")
     public ResponseEntity createEmployee(@Valid @RequestBody Employee employee) {
@@ -269,26 +307,40 @@ public class Employee {
         return ResponseEntity.created(location).build();
     }
 ```
+
 #### Q10. Configure actuator in your project to check the health of application and get the information about various beans configured in your application. 
 ##### To enable Actuator in a Sprint Boot application we need to do 2 steps
 ##### 1. Add actuator dependency
+
+[build.gradle](project-files/restful-web-service-1/build.gradle)
+
 ```
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.2.5.RELEASE'
 ```
+
 ##### 2. Expose required metrics endpoints
 ###### I have exposed all using
+
+[application.properties](project-files/restful-web-service-1/src/main/resources/application.properties)
+
 ```
 management.endpoints.web.exposure.include = *
 ```
+
 ##### 3. Add HAL browser dependency for convenience (Optional)
+
+[build.gradle](project-files/restful-web-service-1/build.gradle)
+
 ```
 compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser', version: '3.2.5.RELEASE'
 ```
+
 ##### screenshots : 
+
 - ##### /actuator/health
 
-![](screenshots/actuator-health.png)
+![actuator-health](screenshots/actuator-health.png)
 
 - ##### /actuator/beans
 
-![](screenshots/actuator-beans.png)
+![actuator-beans](screenshots/actuator-beans.png)
