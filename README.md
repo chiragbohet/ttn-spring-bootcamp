@@ -78,8 +78,11 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {}
         Optional<Employee> employeeToDelete = employeeRepository.findById(id);
 
         if (employeeToDelete.isPresent())
+        {
+            employeeRepository.delete(employeeToDelete.get());
             return employeeToDelete.get();
-        else
+        }
+            else
             throw new UserNotFoundException("No user found with id : " + id);
     }
 ```
